@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Demo Socket IO</title>
+    <script src="jquery.js"></script>
+
+    <!--client gọi thư viện socket.io-->
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+        var socket = io("http://localhost:3000"); // gọi điện lên server
+
+        socket.on("server-send-data",function(data){
+            $("#noidung").append(data + ", ");
+        })
+
+        $(document).ready(function () {
+            $("#mrA").click(function () {
+                socket.emit("Client-send-data" , "HELLO!!!!!!!!!!!")
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="mrA">Click send</div>
+    <h2 id="noidung"></h2>
+</body>
+</html>

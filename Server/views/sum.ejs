@@ -1,0 +1,51 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <style>
+        .borderDKT{
+            margin-left: 100px;
+        }
+        .form-control{
+            display: block;
+        }
+    </style>
+
+</head>
+<body>
+<div class="borderDKT">
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">a :</label>
+            <input type="text" class="form-control" id="aaa" aria-describedby="emailHelp" placeholder="Enter a">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">b :</label>
+            <input type="text" class="form-control" id="bbb" aria-describedby="emailHelp" placeholder="Enter b">
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="sum(event)">Submit</button>
+    </form>
+    <p>Kết quả : </p>
+    <textfield id="resultDKT"></textfield>
+</div>
+
+<script>
+
+    var socket = io("http://localhost:3001"); // gọi điện lên server
+    socket.on("server-send-data",function(data){
+        $("#resultDKT").html('');
+        $("#resultDKT").append(data);
+        // document.getElementById('resultDKT').innerHTML = data;
+    })
+    function sum(event) {
+        event.preventDefault();
+        var a = parseInt(document.getElementById('aaa').value);
+        var b = parseInt(document.getElementById('bbb').value);
+        socket.emit("client_send_data", { a: a, b: b });  //[a, b]
+    }
+</script>
+
+</body>
+</html>
